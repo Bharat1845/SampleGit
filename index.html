@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .wrap{
+      border: 1px solid black;
+      width: 500px;
+      height: 500px;
+      position: absolute;
+      perspective: 600px;
+       perspective-origin: 50% 50%;
+      top: 60%;
+      left: 30%;
+      transform: translate(-50%,-50%);
+      float: left;
+     }
+     .parent{
+      width: 200px;
+       height: 200px;
+  
+       position: absolute;
+       top: 50%;
+       left: 50%;
+      transform: translate(-50%,-50%);
+      transform-style: preserve-3d;
+      animation: ab 5s infinite;
+     }
+    @keyframes ab{
+      from{
+     
+        top: 50%;
+       left: 50%;
+       transform: translate(-50%,-50%) rotateX(10deg) rotateY(0deg);
+      }
+      to{
+        top: 50%;
+       left: 50%;
+       transform: translate(-50%,-50%) rotateX(90deg) rotateY(340deg);
+      }
+    }
+     .parent > div{
+       width: 100%;
+       height: 100%;
+       position: absolute;    
+       border: 1px solid black;
+      
+     }
+     .one{
+       transform: rotateX(0deg) translateZ(-100px);
+     }
+     .two{
+       transform: rotateX(0deg) translateZ(100px);
+     }
+     .three{
+      transform: rotateX(90deg) translateZ(100px);
+     }
+     .four{
+      transform: rotateX(90deg) translateZ(-100px);
+     }
+     .five{
+      transform: rotateY(90deg) translateZ(100px);
+     }
+     .six{
+      transform: rotateX(90deg) translateZ(-100px);
+     }
+     .allImages{
+       width:450px;
+       height: 650px;
+      border:1px solid black;
+      position: relative;
+      left:800px;
+     }
+     .img{
+       margin: 5px;
+       width: 200px;
+       height: 200px;
+     }
+     .division{
+       display: inline-block;
+       width: 100%;
+       height: 100%;
+     }
+  </style>
+</head>
+<body>
+ <h1>Hello World</h1>
+ <div class="wrap">
+   <div class="parent">
+     <div class="one Divider"></div>
+     <div class="two Divider"></div>
+     <div class="three Divider"></div>
+     <div class="four Divider"></div>
+     <div class="five Divider"></div>
+     <div class="six Divider"></div>
+   </div>
+ </div>
+ <div class="allImages">
+   <img src="images/img1.jpeg" class="first img" alt="">
+   <img src="images/img2.jpeg" class="second img" alt="">
+   <img src="images/img3.jpeg" class="third img" alt="">
+   <img src="images/img4.jpeg" class="fourth img" alt="">
+   <img src="images/img5.jpg" class="fifth img" alt="">
+   <img src="images/img6.jpeg" class="sixth img" alt="">
+ </div>
+ <script>
+   var imgStore = document.querySelectorAll('.img');
+   var allDiv = document.querySelectorAll(".Divider")
+   var an;
+ for(let i=0;i<imgStore.length;i++){
+   imgStore[i].setAttribute("draggable","true");
+  //  imgStore[i].addEventListener("dragstart",function(e){
+  //    an = e.target.className;
+  //    console.log(e.target.className)
+
+  //  })
+   console.log(imgStore[i]);
+ }
+ document.addEventListener("dragstart",function(e){
+   console.log(e.target.className);
+   an = e.target.className.split(" ");
+   console.log(an)
+ })
+for(let j=0;j<allDiv.length;j++){
+  allDiv[j].addEventListener("dragover",function(e){
+     e.preventDefault();     
+  });
+  allDiv[j].addEventListener("drop",function(e){
+    console.log(e.target.children.item(0));
+    if(e.target.children.item(0) == null){
+    e.target.appendChild(document.querySelector("."+an[0]));
+    console.log(e.target.children.item(0))
+    console.log(e.target.previousElementSibling);
+    } 
+    else{
+      var d = 0;
+    
+     do{
+      if(allDiv[d].children.item(0) == null){
+       console.log(allDiv[d]);
+       allDiv[d].target.appendChild(document.querySelector("."+an[0]));
+       d++;
+      }else{
+        continue;
+      }
+     }while(d < allDiv.length);
+    }
+    var d = e.target.lastChild.className.split(" ");
+         if(an[0] == d[0]){ 
+     e.target.lastChild.setAttribute("class","division") 
+    }
+  })
+}
+ </script>
+</body>
+</html>
